@@ -67,16 +67,21 @@ public enum ERtcpPackageType {
     APP((byte) 0xCC),
     ;
 
-    private static Map<Byte, ERtcpPackageType> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<Byte, ERtcpPackageType> INSTANCE = createMap();
 
-    public static ERtcpPackageType from(byte data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<Byte, ERtcpPackageType> createMap() {
+            Map<Byte, ERtcpPackageType> map = new HashMap<>();
             for (ERtcpPackageType item : ERtcpPackageType.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static ERtcpPackageType from(byte data) {
+        return Holder.INSTANCE.get(data);
     }
 
     private final byte code;

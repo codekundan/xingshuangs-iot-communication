@@ -54,16 +54,21 @@ public enum ERtspAcceptContent {
 
     ;
 
-    private static Map<String, ERtspAcceptContent> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<String, ERtspAcceptContent> INSTANCE = createMap();
 
-    public static ERtspAcceptContent from(String data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<String, ERtspAcceptContent> createMap() {
+            Map<String, ERtspAcceptContent> map = new HashMap<>();
             for (ERtspAcceptContent item : ERtspAcceptContent.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static ERtspAcceptContent from(String data) {
+        return Holder.INSTANCE.get(data);
     }
 
     private final String code;

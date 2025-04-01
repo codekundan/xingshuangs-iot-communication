@@ -78,16 +78,21 @@ public enum EReturnCode {
 
     ;
 
-    private static Map<Byte, EReturnCode> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<Byte, EReturnCode> INSTANCE = createMap();
 
-    public static EReturnCode from(byte data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<Byte, EReturnCode> createMap() {
+            Map<Byte, EReturnCode> map = new HashMap<>();
             for (EReturnCode item : EReturnCode.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static EReturnCode from(byte data) {
+        return Holder.INSTANCE.get(data);
     }
 
     private final byte code;

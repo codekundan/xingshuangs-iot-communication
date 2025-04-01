@@ -94,16 +94,21 @@ public enum ERtspStatusCode {
 
     ;
 
-    private static Map<Integer, ERtspStatusCode> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<Integer, ERtspStatusCode> INSTANCE = createMap();
 
-    public static ERtspStatusCode from(Integer data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<Integer, ERtspStatusCode> createMap() {
+            Map<Integer, ERtspStatusCode> map = new HashMap<>();
             for (ERtspStatusCode item : ERtspStatusCode.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static ERtspStatusCode from(Integer data) {
+        return Holder.INSTANCE.get(data);
     }
 
     private final Integer code;

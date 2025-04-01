@@ -78,16 +78,21 @@ public enum ENckArea {
 
     ;
 
-    private static Map<Byte, ENckArea> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<Byte, ENckArea> INSTANCE = createMap();
 
-    public static ENckArea from(byte data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<Byte, ENckArea> createMap() {
+            Map<Byte, ENckArea> map = new HashMap<>();
             for (ENckArea item : ENckArea.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static ENckArea from(byte data) {
+        return Holder.INSTANCE.get(data);
     }
 
     private final byte code;

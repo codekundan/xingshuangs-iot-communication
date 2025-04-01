@@ -77,16 +77,21 @@ public enum EFileBlockType {
     SFB("0F"),
     ;
 
-    private static Map<String, EFileBlockType> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<String, EFileBlockType> INSTANCE = createMap();
 
-    public static EFileBlockType from(String data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<String, EFileBlockType> createMap() {
+            Map<String, EFileBlockType> map = new HashMap<>();
             for (EFileBlockType item : EFileBlockType.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static EFileBlockType from(String data) {
+        return Holder.INSTANCE.get(data);
     }
 
     private final String code;

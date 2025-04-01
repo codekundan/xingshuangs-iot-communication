@@ -266,16 +266,21 @@ public enum EMcDeviceCode {
     RD("RD", GeneralConst.TYPE_WORD, 10, "", (byte) 0x00, "RD**", 0x002C),
     ;
 
-    private static Map<String, EMcDeviceCode> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<String, EMcDeviceCode> INSTANCE = createMap();
 
-    public static EMcDeviceCode from(String data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<String, EMcDeviceCode> createMap() {
+            Map<String, EMcDeviceCode> map = new HashMap<>();
             for (EMcDeviceCode item : EMcDeviceCode.values()) {
                 map.put(item.symbol, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static EMcDeviceCode from(String data) {
+        return Holder.INSTANCE.get(data);
     }
 
     /**

@@ -130,16 +130,21 @@ public enum ENckModule {
     UNKNOWN6((byte) 0x85, "State data"),
     ;
 
-    private static Map<Byte, ENckModule> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<Byte, ENckModule> INSTANCE = createMap();
 
-    public static ENckModule from(byte data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<Byte, ENckModule> createMap() {
+            Map<Byte, ENckModule> map = new HashMap<>();
             for (ENckModule item : ENckModule.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static ENckModule from(byte data) {
+        return Holder.INSTANCE.get(data);
     }
 
     private final byte code;

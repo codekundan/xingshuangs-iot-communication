@@ -82,16 +82,21 @@ public enum ERtcpSdesItemType {
     PRIV((byte) 0x08),
     ;
 
-    private static Map<Byte, ERtcpSdesItemType> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<Byte, ERtcpSdesItemType> INSTANCE = createMap();
 
-    public static ERtcpSdesItemType from(byte data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<Byte, ERtcpSdesItemType> createMap() {
+            Map<Byte, ERtcpSdesItemType> map = new HashMap<>();
             for (ERtcpSdesItemType item : ERtcpSdesItemType.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static ERtcpSdesItemType from(byte data) {
+        return Holder.INSTANCE.get(data);
     }
 
     private final byte code;

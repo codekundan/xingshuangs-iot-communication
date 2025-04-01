@@ -48,16 +48,21 @@ public enum ERtspTransportProtocol {
 
     ;
 
-    private static Map<Integer, ERtspTransportProtocol> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<Integer, ERtspTransportProtocol> INSTANCE = createMap();
 
-    public static ERtspTransportProtocol from(int data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<Integer, ERtspTransportProtocol> createMap() {
+            Map<Integer, ERtspTransportProtocol> map = new HashMap<>();
             for (ERtspTransportProtocol item : ERtspTransportProtocol.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static ERtspTransportProtocol from(int data) {
+        return Holder.INSTANCE.get(data);
     }
 
     private final int code;

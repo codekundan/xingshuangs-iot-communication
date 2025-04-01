@@ -94,16 +94,21 @@ public enum ERtspMethod {
 
     ;
 
-    private static Map<String, ERtspMethod> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<String, ERtspMethod> INSTANCE = createMap();
 
-    public static ERtspMethod from(String data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<String, ERtspMethod> createMap() {
+            Map<String, ERtspMethod> map = new HashMap<>();
             for (ERtspMethod item : ERtspMethod.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static ERtspMethod from(String data) {
+        return Holder.INSTANCE.get(data);
     }
 
     private final String code;

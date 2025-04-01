@@ -73,16 +73,21 @@ public enum EMp4Type {
     SMHD("smhd"),
     ;
 
-    private static Map<String, EMp4Type> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<String, EMp4Type> INSTANCE = createMap();
 
-    public static EMp4Type from(String data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<String, EMp4Type> createMap() {
+            Map<String, EMp4Type> map = new HashMap<>();
             for (EMp4Type item : EMp4Type.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static EMp4Type from(String data) {
+        return Holder.INSTANCE.get(data);
     }
 
     private final String code;

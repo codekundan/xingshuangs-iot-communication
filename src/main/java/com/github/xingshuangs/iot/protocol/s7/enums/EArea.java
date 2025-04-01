@@ -118,16 +118,21 @@ public enum EArea {
 
     ;
 
-    private static Map<Byte, EArea> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<Byte, EArea> INSTANCE = createMap();
 
-    public static EArea from(byte data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<Byte, EArea> createMap() {
+            Map<Byte, EArea> map = new HashMap<>();
             for (EArea item : EArea.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static EArea from(byte data) {
+        return EArea.Holder.INSTANCE.get(data);
     }
 
     private final byte code;

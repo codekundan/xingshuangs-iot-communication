@@ -48,16 +48,21 @@ public enum ERtspContentType {
 
     ;
 
-    private static Map<String, ERtspContentType> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<String, ERtspContentType> INSTANCE = createMap();
 
-    public static ERtspContentType from(String data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<String, ERtspContentType> createMap() {
+            Map<String, ERtspContentType> map = new HashMap<>();
             for (ERtspContentType item : ERtspContentType.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static ERtspContentType from(String data) {
+        return Holder.INSTANCE.get(data);
     }
 
     private final String code;

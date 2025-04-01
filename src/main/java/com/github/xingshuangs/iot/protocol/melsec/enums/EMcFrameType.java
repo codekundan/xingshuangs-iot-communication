@@ -55,16 +55,21 @@ public enum EMcFrameType {
     FRAME_1E("1E", 0x00, 0x00),
     ;
 
-    private static Map<String, EMcFrameType> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<String, EMcFrameType> INSTANCE = createMap();
 
-    public static EMcFrameType from(String data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<String, EMcFrameType> createMap() {
+            Map<String, EMcFrameType> map = new HashMap<>();
             for (EMcFrameType item : EMcFrameType.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static EMcFrameType from(String data) {
+        return Holder.INSTANCE.get(data);
     }
 
     /**

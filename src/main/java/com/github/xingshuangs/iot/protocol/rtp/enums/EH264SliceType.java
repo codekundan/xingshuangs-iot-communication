@@ -63,16 +63,21 @@ public enum EH264SliceType {
 
     ;
 
-    private static Map<Integer, EH264SliceType> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<Integer, EH264SliceType> INSTANCE = createMap();
 
-    public static EH264SliceType from(int data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<Integer, EH264SliceType> createMap() {
+            Map<Integer, EH264SliceType> map = new HashMap<>();
             for (EH264SliceType item : EH264SliceType.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static EH264SliceType from(int data) {
+        return Holder.INSTANCE.get(data);
     }
 
     private final int code;

@@ -152,16 +152,21 @@ public enum EH264NaluType {
 
     ;
 
-    private static Map<Integer, EH264NaluType> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<Integer, EH264NaluType> INSTANCE = createMap();
 
-    public static EH264NaluType from(int data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<Integer, EH264NaluType> createMap() {
+            Map<Integer, EH264NaluType> map = new HashMap<>();
             for (EH264NaluType item : EH264NaluType.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static EH264NaluType from(int data) {
+        return Holder.INSTANCE.get(data);
     }
 
     private final int code;

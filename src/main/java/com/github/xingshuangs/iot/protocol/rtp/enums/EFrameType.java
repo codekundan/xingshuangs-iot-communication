@@ -55,16 +55,21 @@ public enum EFrameType {
 
     ;
 
-    private static Map<Byte, EFrameType> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<Byte, EFrameType> INSTANCE = createMap();
 
-    public static EFrameType from(byte data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<Byte, EFrameType> createMap() {
+            Map<Byte, EFrameType> map = new HashMap<>();
             for (EFrameType item : EFrameType.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static EFrameType from(byte data) {
+        return Holder.INSTANCE.get(data);
     }
 
     private final byte code;

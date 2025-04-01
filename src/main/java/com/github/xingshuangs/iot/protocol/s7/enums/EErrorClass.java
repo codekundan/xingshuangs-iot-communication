@@ -85,16 +85,21 @@ public enum EErrorClass {
     DOWNLOAD_ERROR((byte) 0xD2, "download error"),
     ;
 
-    private static Map<Byte, EErrorClass> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<Byte, EErrorClass> INSTANCE = createMap();
 
-    public static EErrorClass from(byte data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<Byte, EErrorClass> createMap() {
+            Map<Byte, EErrorClass> map = new HashMap<>();
             for (EErrorClass item : EErrorClass.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static EErrorClass from(byte data) {
+        return Holder.INSTANCE.get(data);
     }
 
     private final byte code;

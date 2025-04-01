@@ -234,16 +234,21 @@ public enum EMcCommand {
     //endregion
     ;
 
-    private static Map<Integer, EMcCommand> map;
+    // 静态内部类（static 内部类）实现懒加载
+    private static class Holder {
+        private static final Map<Integer, EMcCommand> INSTANCE = createMap();
 
-    public static EMcCommand from(int data) {
-        if (map == null) {
-            map = new HashMap<>();
+        private static Map<Integer, EMcCommand> createMap() {
+            Map<Integer, EMcCommand> map = new HashMap<>();
             for (EMcCommand item : EMcCommand.values()) {
                 map.put(item.code, item);
             }
+            return map;
         }
-        return map.get(data);
+    }
+
+    public static EMcCommand from(int data) {
+        return Holder.INSTANCE.get(data);
     }
 
     private final int code;
