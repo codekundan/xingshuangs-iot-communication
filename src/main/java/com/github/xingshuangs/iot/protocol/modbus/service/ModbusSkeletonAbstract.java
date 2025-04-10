@@ -79,6 +79,42 @@ public abstract class ModbusSkeletonAbstract<T, R> extends TcpClientBasic {
      */
     protected boolean persistence = true;
 
+    /**
+     * The maximum length of read coil in a single communication.
+     * 单次通信读线圈的最大长度
+     */
+    private int maxLengthOfReadCoil = 2000;
+
+    /**
+     * The maximum length of write coil in a single communication.
+     * 单次通信写线圈的最大长度
+     */
+    private int maxLengthOfWriteCoil = 1968;
+
+    /**
+     * The maximum length of read discrete input in a single communication.
+     * 单次通信读离散输入的最大长度
+     */
+    private int maxLengthOfReadDiscreteInput = 2000;
+
+    /**
+     * The maximum length of read hold register in a single communication.
+     * 单次通信读保持寄存器的最大长度
+     */
+    private int maxLengthOfReadHoldRegister = 125;
+
+    /**
+     * The maximum length of write hold register in a single communication.
+     * 单次通信写保持寄存器的最大长度
+     */
+    private int maxLengthOfWriteHoldRegister = 123;
+
+    /**
+     * The maximum length of read input register in a single communication.
+     * 单次通信读输入寄存器的最大长度
+     */
+    private int maxLengthOfReadInputRegister = 125;
+
     public ModbusSkeletonAbstract() {
         super();
     }
@@ -164,7 +200,7 @@ public abstract class ModbusSkeletonAbstract<T, R> extends TcpClientBasic {
         }
 
         List<Boolean> res = new ArrayList<>();
-        LoopGroupAlg.loopExecute(quantity, 2000, (off, len) -> {
+        LoopGroupAlg.loopExecute(quantity, this.maxLengthOfReadCoil, (off, len) -> {
             MbReadCoilRequest reqPdu = new MbReadCoilRequest(address + off, len);
             MbReadCoilResponse resPdu = (MbReadCoilResponse) this.readModbusData(unitId, reqPdu);
             List<Boolean> booleans = BooleanUtil.byteArrayToList(len, resPdu.getCoilStatus());
@@ -228,7 +264,7 @@ public abstract class ModbusSkeletonAbstract<T, R> extends TcpClientBasic {
             throw new IllegalArgumentException("coilStatus list is empty");
         }
 
-        LoopGroupAlg.loopExecute(coilStatus.size(), 1968, (off, len) -> {
+        LoopGroupAlg.loopExecute(coilStatus.size(), this.maxLengthOfWriteCoil, (off, len) -> {
             List<Boolean> booleanList = coilStatus.subList(off, off + len);
             byte[] values = BooleanUtil.listToByteArray(booleanList);
             MbWriteMultipleCoilRequest reqPdu = new MbWriteMultipleCoilRequest(address + off, len, values);
@@ -266,7 +302,7 @@ public abstract class ModbusSkeletonAbstract<T, R> extends TcpClientBasic {
         }
 
         List<Boolean> res = new ArrayList<>();
-        LoopGroupAlg.loopExecute(quantity, 2000, (off, len) -> {
+        LoopGroupAlg.loopExecute(quantity, this.maxLengthOfReadDiscreteInput, (off, len) -> {
             MbReadDiscreteInputRequest reqPdu = new MbReadDiscreteInputRequest(address + off, len);
             MbReadDiscreteInputResponse resPdu = (MbReadDiscreteInputResponse) this.readModbusData(unitId, reqPdu);
             List<Boolean> booleans = BooleanUtil.byteArrayToList(len, resPdu.getInputStatus());
@@ -306,7 +342,7 @@ public abstract class ModbusSkeletonAbstract<T, R> extends TcpClientBasic {
 
         // TODO: 实际在slave中测试，没有125的约束，暂时先这么写着
         ByteWriteBuff buff = ByteWriteBuff.newInstance(quantity * 2);
-        LoopGroupAlg.loopExecute(quantity, 125, (off, len) -> {
+        LoopGroupAlg.loopExecute(quantity, this.maxLengthOfReadHoldRegister, (off, len) -> {
             MbReadHoldRegisterRequest reqPdu = new MbReadHoldRegisterRequest(address + off, len);
             MbReadHoldRegisterResponse resPdu = (MbReadHoldRegisterResponse) this.readModbusData(unitId, reqPdu);
             buff.putBytes(resPdu.getRegister());
@@ -378,7 +414,7 @@ public abstract class ModbusSkeletonAbstract<T, R> extends TcpClientBasic {
         }
 
         ByteReadBuff buff = ByteReadBuff.newInstance(values);
-        LoopGroupAlg.loopExecute(values.length / 2, 123, (off, len) -> {
+        LoopGroupAlg.loopExecute(values.length / 2, this.maxLengthOfWriteHoldRegister, (off, len) -> {
             byte[] bytes = buff.getBytes(off * 2, len * 2);
             MbWriteMultipleRegisterRequest reqPdu = new MbWriteMultipleRegisterRequest(address + off, len, bytes);
             this.readModbusData(unitId, reqPdu);
@@ -444,7 +480,7 @@ public abstract class ModbusSkeletonAbstract<T, R> extends TcpClientBasic {
         }
 
         ByteWriteBuff buff = ByteWriteBuff.newInstance(quantity * 2);
-        LoopGroupAlg.loopExecute(quantity, 125, (off, len) -> {
+        LoopGroupAlg.loopExecute(quantity, this.maxLengthOfReadInputRegister, (off, len) -> {
             MbReadInputRegisterRequest reqPdu = new MbReadInputRegisterRequest(address + off, len);
             MbReadInputRegisterResponse resPdu = (MbReadInputRegisterResponse) this.readModbusData(unitId, reqPdu);
             buff.putBytes(resPdu.getRegister());

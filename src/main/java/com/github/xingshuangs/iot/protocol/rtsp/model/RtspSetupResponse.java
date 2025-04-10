@@ -32,7 +32,8 @@ import lombok.Getter;
 
 import java.util.Map;
 
-import static com.github.xingshuangs.iot.protocol.rtsp.constant.RtspCommonKey.*;
+import static com.github.xingshuangs.iot.protocol.rtsp.constant.RtspCommonKey.SESSION;
+import static com.github.xingshuangs.iot.protocol.rtsp.constant.RtspCommonKey.TRANSPORT;
 
 /**
  * Setup response

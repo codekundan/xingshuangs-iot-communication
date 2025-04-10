@@ -25,9 +25,9 @@
 package com.github.xingshuangs.iot.protocol.modbus.model;
 
 
-import com.github.xingshuangs.iot.exceptions.ModbusCommException;
 import com.github.xingshuangs.iot.common.IObjectByteArray;
 import com.github.xingshuangs.iot.common.buff.ByteWriteBuff;
+import com.github.xingshuangs.iot.exceptions.ModbusCommException;
 import lombok.Data;
 
 /**

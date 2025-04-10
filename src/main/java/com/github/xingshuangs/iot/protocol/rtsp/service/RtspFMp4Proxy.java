@@ -38,8 +38,6 @@ import com.github.xingshuangs.iot.protocol.rtsp.model.sdp.RtspTrackInfo;
 import com.github.xingshuangs.iot.utils.HexUtil;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;

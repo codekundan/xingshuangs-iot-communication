@@ -82,7 +82,7 @@ public class ModbusRtuOverTcp extends ModbusSkeletonAbstract<MbRtuRequest, MbRtu
             this.locker.lock();
             this.write(reqBytes);
             len = this.read(data);
-        }finally {
+        } finally {
             this.locker.unlock();
         }
         if (len <= 0) {

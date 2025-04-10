@@ -25,13 +25,13 @@
 package com.github.xingshuangs.iot.protocol.s7.model;
 
 
-import com.github.xingshuangs.iot.exceptions.S7CommException;
 import com.github.xingshuangs.iot.common.IObjectByteArray;
+import com.github.xingshuangs.iot.common.buff.ByteReadBuff;
+import com.github.xingshuangs.iot.common.buff.ByteWriteBuff;
+import com.github.xingshuangs.iot.exceptions.S7CommException;
 import com.github.xingshuangs.iot.protocol.s7.enums.EDataVariableType;
 import com.github.xingshuangs.iot.protocol.s7.enums.EReturnCode;
 import com.github.xingshuangs.iot.utils.BooleanUtil;
-import com.github.xingshuangs.iot.common.buff.ByteReadBuff;
-import com.github.xingshuangs.iot.common.buff.ByteWriteBuff;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

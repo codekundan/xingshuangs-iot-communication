@@ -26,8 +26,8 @@ package com.github.xingshuangs.iot.protocol.s7.model;
 
 
 import com.github.xingshuangs.iot.common.IObjectByteArray;
-import com.github.xingshuangs.iot.protocol.s7.enums.EFunctionCode;
 import com.github.xingshuangs.iot.common.buff.ByteWriteBuff;
+import com.github.xingshuangs.iot.protocol.s7.enums.EFunctionCode;
 import lombok.Data;
 
 /**

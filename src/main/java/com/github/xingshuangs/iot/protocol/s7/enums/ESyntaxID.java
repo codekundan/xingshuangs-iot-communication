@@ -90,7 +90,7 @@ public enum ESyntaxID {
      */
     NCK((byte) 0x82),
     ;
-    
+
     // 静态内部类（static 内部类）实现懒加载
     private static class Holder {
         private static final Map<Byte, ESyntaxID> INSTANCE = createMap();

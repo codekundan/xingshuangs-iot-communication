@@ -98,7 +98,7 @@ public enum EFunctionCode {
      */
     SETUP_COMMUNICATION((byte) 0xF0),
     ;
-    
+
     // 静态内部类（static 内部类）实现懒加载
     private static class Holder {
         private static final Map<Byte, EFunctionCode> INSTANCE = createMap();

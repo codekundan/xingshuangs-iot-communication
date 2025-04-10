@@ -26,9 +26,9 @@ package com.github.xingshuangs.iot.protocol.s7.model;
 
 
 import com.github.xingshuangs.iot.common.IObjectByteArray;
-import com.github.xingshuangs.iot.protocol.s7.enums.EMessageType;
 import com.github.xingshuangs.iot.common.buff.ByteReadBuff;
 import com.github.xingshuangs.iot.common.buff.ByteWriteBuff;
+import com.github.xingshuangs.iot.protocol.s7.enums.EMessageType;
 import lombok.Data;
 
 import java.util.concurrent.atomic.AtomicInteger;

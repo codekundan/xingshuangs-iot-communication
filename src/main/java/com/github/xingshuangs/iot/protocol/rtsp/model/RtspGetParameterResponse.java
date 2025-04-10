@@ -34,7 +34,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static com.github.xingshuangs.iot.protocol.rtsp.constant.RtspCommonKey.*;
-import static com.github.xingshuangs.iot.protocol.rtsp.constant.RtspCommonKey.SESSION;
 
 /**
  * Setup response
