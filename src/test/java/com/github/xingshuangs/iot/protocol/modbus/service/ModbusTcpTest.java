@@ -147,6 +147,9 @@ public class ModbusTcpTest {
 
         List<Integer> list = Arrays.asList(11, 12, 13, 14);
         plc.writeHoldRegister(3, list);
+
+        byte[] data = new byte[]{(byte) 0x01, (byte) 0x06, (byte) 0x09};
+        plc.writeHoldRegister(0, data);
     }
 
     @Test

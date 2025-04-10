@@ -409,12 +409,13 @@ public abstract class ModbusSkeletonAbstract<T, R> extends TcpClientBasic {
         if (address < 0 || address > 65535) {
             throw new IllegalArgumentException("address < 0 || address > 65535");
         }
+        byte[] newValues = values;
         if (values.length % 2 != 0) {
-            throw new IllegalArgumentException("values must have an even length");
+            newValues = ByteWriteBuff.newInstance(values.length + 1).putBytes(values).getData();
         }
 
-        ByteReadBuff buff = ByteReadBuff.newInstance(values);
-        LoopGroupAlg.loopExecute(values.length / 2, this.maxLengthOfWriteHoldRegister, (off, len) -> {
+        ByteReadBuff buff = ByteReadBuff.newInstance(newValues);
+        LoopGroupAlg.loopExecute(newValues.length / 2, this.maxLengthOfWriteHoldRegister, (off, len) -> {
             byte[] bytes = buff.getBytes(off * 2, len * 2);
             MbWriteMultipleRegisterRequest reqPdu = new MbWriteMultipleRegisterRequest(address + off, len, bytes);
             this.readModbusData(unitId, reqPdu);
