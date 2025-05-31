@@ -123,6 +123,7 @@ public class ByteReadBuffTest {
     public void getInt64() {
         ByteReadBuff buff = new ByteReadBuff(new byte[]{(byte) 0x15, (byte) 0x55, (byte) 0x56, (byte) 0x89, (byte) 0x8A, (byte) 0x9B, (byte) 0x56, (byte) 0x58});
         long actual = buff.getInt64();
+        assertEquals(8, buff.getOffset());
         assertEquals(1537229996552836696L, actual);
     }
 

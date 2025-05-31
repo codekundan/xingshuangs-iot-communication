@@ -1,3 +1,12 @@
+## v1.5.4
+
+- 更新时间：2025.05.31
+- Modbus: 提取最大长度读写变量，支持修改
+- Modbus：写入保持寄存器兼容字节数量为奇数
+- BYTE: INT64修正偏移错误
+- All: 静态内部类实现懒加载，线程安全
+- All：MC,MODBUS,S7,RTSP中synchronized替换为ReentrantLock
+
 ## v1.5.3
 
 - 更新时间：2024.10.11
