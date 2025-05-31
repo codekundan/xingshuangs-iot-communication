@@ -265,7 +265,7 @@ public class ByteReadBuff {
      */
     public long getInt64() {
         long res = this.getInt64(this.offset);
-        this.offset += 4;
+        this.offset += 8;
         return res;
     }
 
